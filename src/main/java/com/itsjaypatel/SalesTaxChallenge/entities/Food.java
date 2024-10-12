@@ -1,15 +1,16 @@
 package com.itsjaypatel.SalesTaxChallenge.entities;
 
+import com.itsjaypatel.SalesTaxChallenge.stretegies.impl.BasicSalesTaxCalculationExemptItemStrategy;
+import com.itsjaypatel.SalesTaxChallenge.stretegies.impl.ImportDutyCalculationStrategyImpl;
+
 import java.math.BigDecimal;
 
-import static com.itsjaypatel.SalesTaxChallenge.factories.BasicSalesTaxCalculationStrategyFactory.getBasicSalesTaxCalculationStrategy;
-import static com.itsjaypatel.SalesTaxChallenge.factories.ImportDutyCalculationStrategyFactory.getImportDutyCalculationStrategy;
 
 public class Food extends Item {
 
     public Food(String name, int quantity, BigDecimal price, boolean isImported) {
         super(name, quantity, price, isImported,
-                getBasicSalesTaxCalculationStrategy(true),
-                getImportDutyCalculationStrategy());
+                new BasicSalesTaxCalculationExemptItemStrategy(),
+                new ImportDutyCalculationStrategyImpl());
     }
 }

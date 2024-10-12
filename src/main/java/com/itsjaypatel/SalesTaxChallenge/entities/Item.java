@@ -14,8 +14,8 @@ public abstract class Item {
     private final BasicSalesTaxCalculationStrategy basicSalesTaxCalculationStrategy;
     private final ImportDutyCalculationStrategy importDutyCalculationStrategy;
 
-    protected Item(String name,int quantity, BigDecimal basePrice, boolean isImported,BasicSalesTaxCalculationStrategy
-                   basicSalesTaxCalculationStrategy, ImportDutyCalculationStrategy importDutyCalculationStrategy) {
+    protected Item(String name, int quantity, BigDecimal basePrice, boolean isImported, BasicSalesTaxCalculationStrategy
+            basicSalesTaxCalculationStrategy, ImportDutyCalculationStrategy importDutyCalculationStrategy) {
         this.name = name;
         this.quantity = quantity;
         this.basePrice = basePrice;
@@ -40,22 +40,22 @@ public abstract class Item {
         return basePrice;
     }
 
-    private BigDecimal basicSalesTaxCalculation(){
+    private BigDecimal calculateBasicSalesTax() {
         return basicSalesTaxCalculationStrategy.calculate(basePrice).multiply(BigDecimal.valueOf(quantity));
     }
 
-    private BigDecimal importDutyCalculation(){
-        if(!isImported) return BigDecimal.ZERO;
+    private BigDecimal calculateImportDuty() {
+        if (!isImported) return BigDecimal.ZERO;
         return importDutyCalculationStrategy.calculate(basePrice).multiply(BigDecimal.valueOf(quantity));
     }
 
-    public BigDecimal priceAfterTaxCalculation(){
-        return basePrice.add(applicableSalesTax());
+    public BigDecimal priceAfterApplyingTaxes() {
+        return basePrice.add(applicableSalesTax()).multiply(BigDecimal.valueOf(quantity));
     }
 
-    public BigDecimal applicableSalesTax(){
-        BigDecimal tax1 =  basicSalesTaxCalculation();
-        BigDecimal tax2 = importDutyCalculation();
+    public BigDecimal applicableSalesTax() {
+        BigDecimal tax1 = calculateBasicSalesTax();
+        BigDecimal tax2 = calculateImportDuty();
         return tax1.add(tax2);
     }
 }

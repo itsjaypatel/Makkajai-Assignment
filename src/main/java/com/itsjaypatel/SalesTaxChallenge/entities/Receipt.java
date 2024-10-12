@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Receipt {
 
-    private BigDecimal totalAmount;
-    private BigDecimal  salesTax;
-    private List<Item>  items;
+    private final BigDecimal totalAmount;
+    private final BigDecimal salesTax;
+    private final List<Item> items;
 
     public Receipt(BigDecimal totalAmount, BigDecimal salesTax, List<Item> items) {
         this.totalAmount = totalAmount;
